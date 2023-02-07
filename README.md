@@ -12,4 +12,4 @@ certifier = Certifier(sigma=0.5)
 certificates = certifier.certify(model, dataset='cifar10')
 ```
 
-where ```python model ``` is a base classifier accepting a image tensors in the form NCHW
+where ``` model ``` is a base classifier accepting a image tensors in the form NCHW
