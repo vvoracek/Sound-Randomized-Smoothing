@@ -8,6 +8,7 @@ the usage is as follows:
 
 ```python
 from certifier import Certifier
+
 Cert = Certifier(sigma=0.5)
 certificates = Cert.certify(model, dataset='cifar10')
 ```
