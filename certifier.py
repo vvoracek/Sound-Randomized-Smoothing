@@ -11,6 +11,13 @@ import warnings
 
 class Certifier():
     def __init__(self, sigma, bits_precision=60, device=None, exact = True, symbolic=True):
+        """
+        :param sigma: standard deviation of smoothed distribution
+        :param bits_precision: how much bits to use for random number generation
+        :param device: device 
+        :param exact: if False, then the certification is unsound.
+        :param symbolic: if False, the smoothing distribution is computed with finite precision.
+        """
         if(device is None):
             self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         else:
@@ -40,6 +47,18 @@ class Certifier():
                 return torch.randn(shape, device=self.device)*self.sigma, False
 
     def certify(self, model, dataset, reuse = True, bs = 32, n0=128, n=100000, alpha=0.001, path=None, skip=20):
+        """
+        :param model: Base classifier mapping from [batch x channel x height x width] to [batch x num_classes]
+        :param dataset: Certified dataset, one of cifar10, cifar100, imagenet
+        :param reuse: Whether to reuse noise samples or not (faster for sound practice)
+        :param bs: batch size 
+        :param n0: number of samples used to estimate top1 class
+        :param n: number of noise samples to evaluate smoothed classifier
+        :param alpha: failure probability 
+        :param path: path for imagenet validation set 
+        :param skip: certify only one in #skip examples and skip the rest.
+        """
+
         model.eval()
         if(isinstance(dataset, str)):
             if(path is None or dataset != 'imagenet' ):
