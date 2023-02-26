@@ -80,7 +80,6 @@ class Certifier():
                 
         X =  dataset[0][0]
         shape = [bs] + list(X.shape)
-        print(shape)
         counts = defaultdict(lambda: (Counter(), Counter()))
         true_labels = {}
 
@@ -91,7 +90,7 @@ class Certifier():
             if(reuse == True):
                 for bidx in tqdm(range((n+n0) // bs)):
                     noise, failure = self.get_noise_batch(shape)
-                    if(failure and bidx < n0//bs):
+                    if(failure and bidx >= n0//bs):
                         continue
                     for idx in range(0,len(dataset),skip):
                         X, y = dataset[idx]
@@ -106,7 +105,7 @@ class Certifier():
                     X = X.to(self.device)
                     for bidx in range((n+n0) // bs):
                         noise, failure = self.get_noise_batch(shape)
-                        if(failure and bidx < n0//bs):
+                        if(failure and bidx >= n0//bs):
                             continue
                         preds = model((noise + X).clip(-self.k, self.k+1)).argmax(-1)
                         counts[idx][bidx >= n0//bs].update(preds.detach().tolist())
