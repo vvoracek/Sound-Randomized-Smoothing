@@ -2,7 +2,9 @@
 Code for the paper Sound Randomized Smoothing in Floating-Point Arithmetics
 https://arxiv.org/abs/2207.07209
 
-The provided script contains normal distribution certification procedure for $\ell_2$ certified robustness discussed in the paper for sound randomized smoothing certification. 
+It turns out that the standard implementation of randomized smoothing suffers from floating point errors. This sampler fixes the problem.
+
+The provided script contains normal distribution certification procedure for $\ell_2$ certified robustness discussed in the paper. 
 
 the usage is as follows:
 
